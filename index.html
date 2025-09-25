@@ -52,14 +52,11 @@ aside .contact-list{display:flex;flex-direction:column;gap:8px}
 
 footer{margin-top:22px;text-align:center;color:var(--muted);font-size:13px}
 
-/* small screens */
 @media (max-width:900px){main{grid-template-columns:1fr} .photo{width:108px;height:108px}}
 
-/* subtle entrance animation */
 .fade-up{opacity:0;transform:translateY(8px);animation:fadeUp 700ms forwards}
 @keyframes fadeUp{to{opacity:1;transform:none}}
 
-/* floating accent */
 .accent-bubble{position:fixed;right:18px;bottom:18px;padding:12px 14px;background:linear-gradient(90deg,#1e293b, rgba(255,255,255,0.02));border-radius:12px;border:1px solid var(--glass-border);backdrop-filter: blur(6px)}
 
   </style>
@@ -75,7 +72,7 @@ footer{margin-top:22px;text-align:center;color:var(--muted);font-size:13px}
           <h1 id="fullname">KAVIYA D</h1>
           <p id="location">Udumalpet | Coimbatore</p>
           <div class="chips" id="contactChips">
-            <!-- filled by JS -->
+
           </div>
           <div style="margin-top:12px">
             <input id="photoInput" type="file" accept="image/*" style="display:none">
@@ -118,15 +115,11 @@ footer{margin-top:22px;text-align:center;color:var(--muted);font-size:13px}
   </aside>
 </main>
 
-<footer>
-  <span>Made with ♥ — Interactive single-file portfolio. Click the photo or "Choose Photo" to upload your image.</span>
-</footer>
-
 <div class="accent-bubble">Preview mode • Responsive</div>
 
   </div>  <script>
-    // ===== USER DATA (edit if needed) =====
-    const profileSrc = 'photo.jpg'; // default path; you can replace with 'kaviya.jpg' or keep and use the upload input
+    
+    const profileSrc = 'photo.jpg'; 
 
     const data = {
       fullname: 'KAVIYA D',
@@ -155,28 +148,24 @@ footer{margin-top:22px;text-align:center;color:var(--muted);font-size:13px}
       certs:['Workshop on FACTORY IO','Workshop on ELECTRIC VEHICLE','Workshop on PCB DESIGN']
     }
 
-    // ====== DOM population ======
     document.getElementById('profilePhoto').src = profileSrc;
     document.getElementById('fullname').textContent = data.fullname;
     document.getElementById('location').textContent = data.location;
     document.getElementById('summary').textContent = data.summary;
 
-    // contact chips
     const chips = document.getElementById('contactChips');
     const chipItems = [data.email, data.phone];
     chipItems.forEach(x=>{const c=document.createElement('span');c.className='chip';c.textContent=x;chips.appendChild(c)});
 
-    // skills
     const skillsEl = document.getElementById('skills');
     data.skills.forEach(s=>{
       const el = document.createElement('div'); el.className='skill';
       el.innerHTML = `<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px"><strong>${s.name}</strong><span class="muted">${s.level}%</span></div><div class="bar"><i style="width:0%"></i></div>`;
       skillsEl.appendChild(el);
-      // animate after insertion
+
       requestAnimationFrame(()=>{ setTimeout(()=>{el.querySelector('i').style.width = s.level + '%'},100) });
     })
 
-    // projects
     const projEl = document.getElementById('projects');
     data.projects.forEach(p=>{
       const card = document.createElement('div'); card.className='proj';
@@ -184,7 +173,6 @@ footer{margin-top:22px;text-align:center;color:var(--muted);font-size:13px}
       projEl.appendChild(card);
     })
 
-    // education
     const eduEl = document.getElementById('educationList');
     data.education.forEach(e=>{
       const d=document.createElement('div'); d.className='edu-item';
@@ -192,17 +180,14 @@ footer{margin-top:22px;text-align:center;color:var(--muted);font-size:13px}
       eduEl.appendChild(d);
     })
 
-    // certs
     const certsEl = document.getElementById('certs');
     data.certs.forEach(c=>{const li=document.createElement('li');li.textContent=c;certsEl.appendChild(li)})
 
-    // contact list
     const contactList = document.getElementById('contactList');
     const emailBtn = document.createElement('div'); emailBtn.className='muted'; emailBtn.innerHTML = `<strong>Email:</strong> <a href='mailto:${data.email}'>${data.email}</a>`;
     const phoneBtn = document.createElement('div'); phoneBtn.className='muted'; phoneBtn.innerHTML = `<strong>Phone:</strong> <a href='tel:${data.phone}'>${data.phone}</a>`;
     contactList.appendChild(emailBtn); contactList.appendChild(phoneBtn);
 
-    // ===== interactions =====
     document.getElementById('changePhotoBtn').addEventListener('click', ()=> document.getElementById('photoInput').click());
     const photoInput = document.getElementById('photoInput');
     photoInput.addEventListener('change', (ev)=>{
@@ -218,24 +203,14 @@ footer{margin-top:22px;text-align:center;color:var(--muted);font-size:13px}
       alert(decodeURIComponent(title) + "\n\nOpen this project's repository or add more details here.");
     }
 
-    // print resume
     document.getElementById('printBtn').addEventListener('click', ()=>{
       window.print();
     })
 
-    // download vCard
-    document.getElementById('downloadVCard').addEventListener('click', ()=>{
-      const vcf = `BEGIN:VCARD\nVERSION:3.0\nFN:${data.fullname}\nEMAIL;TYPE=INTERNET:${data.email}\nTEL;TYPE=CELL:${data.phone}\nEND:VCARD`;
-      const blob = new Blob([vcf], {type:'text/vcard'});
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = `${data.fullname.replace(/\s+/g,'_')}.vcf`; a.click();
-    })
-
-    // email me
     document.getElementById('emailMe').addEventListener('click', ()=>{
       location.href = `mailto:${data.email}?subject=Opportunity%20for%20${encodeURIComponent(data.fullname)}`;
     })
 
-    // small animation delay for fades
     document.querySelectorAll('.fade-up').forEach((el,i)=> el.style.animationDelay = (i*80)+'ms');
 
   </script></body>
